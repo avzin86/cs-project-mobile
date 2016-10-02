@@ -1,0 +1,28 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">{{editingAchievement ? 'Edit' : 'Add new' }} achievement</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeReserve()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form id="achievement" name="achievement" ng-submit="postAchievement()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Name</span>
+          <input type="text" ng-model="newAchiv.name"
+           name="name" >
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Date</span>
+          <input type="date" ng-model="newAchiv.date">
+        </label>
+
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">{{editingAchievement ? 'Save' : 'Create'}}</button>
+          <button class="button button-block button-stable" ng-click="closeNewAchiv()">Cancel</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

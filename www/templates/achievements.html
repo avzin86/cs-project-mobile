@@ -1,0 +1,42 @@
+<ion-view view-title="Achievements">
+  <ion-content>
+      <div ng-if="!showContent">
+          {{message}}
+      </div>
+      <div ng-if="showContent" class="text-center">
+      <h2>Manage Achievements</h2>
+      <button type="button" class="button button-energized button-small" ng-click="addNewAchievement()"><i class="icon ion-document"></i> New Achievement</button>
+      <br>
+      <br>
+      <div ng-if="achievementForm">
+
+          <form  id="achievement" name="achievement" ng-submit="postAchievement()">
+            <div class="list">
+              <label class="item item-input">
+                <span class="input-label">Name</span>
+                <input type="text" ng-model="newAchiv.name"
+                 name="name" >
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Date</span>
+                <input type="date" ng-model="newAchiv.date">
+              </label>
+
+              <label class="item">
+                <button class="button button-block button-positive" type="submit">{{editingAchievement ? 'Save' : 'Create'}}</button>
+                <button class="button button-block button-stable" ng-click="achievementForm=false">Cancel</button>
+              </label>
+            </div>
+          </form>
+      </div>
+      <ol style="list-style-type: decimal;">
+          <li ng-repeat="achiv in achievements">
+              {{achiv.name}}, {{achiv.date  | date:'dd MMM yyyy'}}
+              <button class="button button-small button-positive icon ion-compose" ng-click="editAchievement(achiv)"></button>
+              <button class="button button-small button-assertive icon ion-close" ng-click="removeAchievement(achiv)"></button>
+          </li>
+      </ol>
+      </div>
+
+  </ion-content>
+</ion-view>

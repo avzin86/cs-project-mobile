@@ -1,0 +1,80 @@
+<ion-view view-title="Skills">
+  <ion-content>
+
+      <div ng-if="!showContent">
+          {{message}}
+      </div>
+
+      <div ng-if="showContent" class="text-center">
+      <h2>Manage Skills</h2>
+      <button type="button" class="button button-energized button-small" ng-click="addNewDirection()"><i class="icon ion-document"></i> New Direction</button>
+      <br>
+      <br>
+      </div>
+    <div ng-if="showContent" ng-repeat="direction in directions">
+        <h3 class="text-center">{{direction.name}}
+            <button ng-click="editDirection(direction.id);" class="button button-small button-positive icon ion-compose"></button>
+            <button ng-click="removeDirection(direction)" class="button button-small button-assertive icon ion-close"></button>
+        </h3>
+        <ion-list>
+            <div ng-repeat="profile in direction.profiles">
+            <ion-item class="item-stable"
+
+                       ng-class="{active: isGroupShown(profile)}">
+                <i class="icon" ng-click="toggleGroup(profile)" ng-class="isGroupShown(profile) ? 'ion-minus' : 'ion-plus'"></i>
+               &nbsp;
+               {{profile.name}}
+               <button class="button button-small button-positive icon ion-compose" ng-click="editProfile(profile.id)"></button>
+               <button class="button button-small button-assertive icon ion-close" ng-click="removeProfile(profile)"></button>
+             </ion-item>
+             <ion-item class="item-accordion"
+                       ng-show="isGroupShown(profile)">
+               <div ng-repeat="competence in profile.competences" class="card">
+                   <div class="item item-divider">{{competence.name}}
+                       <button ng-if="editingCompetence == $index" ng-click="saveCompetence(competence)" class="button button-small button-positive icon ion-checkmark-round"></button>
+                       <button ng-if="editingCompetence == null" ng-click="editCompetence($index);" class="button button-small button-positive icon ion-compose"></button>
+                       <button ng-click="removeCompetence(competence.id)" class="button button-small button-assertive icon ion-close"></button>
+                   </div>
+
+                   <div class="item item-text-wrap">
+
+                           <div ng-repeat="skill in competence.skills">
+                               <p class="text-center">
+                                   {{skill.name}}
+                               </p>
+                               <div class="row">
+                                   <div ng-if="editingCompetence == $parent.$index" class="col-10 vcenter">
+                                       <button ng-click="skill.exp = skill.exp-1" class="button button-small button-positive icon ion-minus-round"></button>
+                                   </div>
+                                   <div class="col">
+                                       <progress max="100" value="{{skill.exp}}">{{skill.exp}}%</progress>
+                                   </div>
+                                   <div ng-if="editingCompetence == $parent.$index" class="col-10 vcenter">
+                                       <button ng-click="skill.exp = skill.exp+1" class="button button-small button-positive icon ion-plus-round"></button>
+                                   </div>
+                                   <div ng-if="editingCompetence == $parent.$index" class="col-10 vcenter">
+                                       <button ng-click="removeSkill(skill.id)" class="button button-small button-assertive icon ion-close-round"></button>
+                                   </div>
+                               </div>
+                           </div>
+                    <div class="text-center">
+                        <button type="button" class="button button-positive button-small" ng-if="editingCompetence == $index" ng-click="addNewSkill(competence.id)"><i class="icon ion-document"></i> New Skill</button>
+                    </div>
+
+                   </div>
+               </div>
+
+                <div class="text-center">
+                        <button type="button" ng-click="addNewCompetence(profile.id)" class="button button-positive button-small"><i class="icon ion-document"></i> New Competence</button>
+                </div>
+             </ion-item>
+            </div>
+        </ion-list>
+        <div class="text-center">
+                        <button type="button" class="button button-positive button-small" ng-click="addNewProfile(direction)"><i class="icon ion-document"></i> New Profile</button>
+        </div>
+        <br>
+    </div>
+
+  </ion-content>
+</ion-view>
