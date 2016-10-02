@@ -59,47 +59,31 @@ angular.module('starter.controllers', [])
   });
 
 
-
-  // Perform the login action when the user submits the login form
-  $scope.doReserve = function () {
-      console.log('Doing reservation', $scope.reservation);
-
-      // Simulate a login delay. Remove this and replace with your login
-      // code if using a login system
-      $timeout(function () {
-          $scope.closeReserve();
-      }, 1000);
-  };
-
-  // Create the login modal that we will use later
+  // Create the register modal that we will use later
   $ionicModal.fromTemplateUrl('templates/register.html', {
       scope: $scope
   }).then(function (modal) {
       $scope.registerform = modal;
   });
 
-  // Triggered in the login modal to close it
+  // Triggered in the register modal to close it
   $scope.closeRegister = function () {
       $scope.registerform.hide();
   };
 
-  // Open the login modal
+  // Open the register modal
   $scope.register = function () {
       $scope.registerform.show();
   };
 
-  // Perform the login action when the user submits the login form
   $scope.doRegister = function () {
       console.log('Doing registration', $scope.registration);
       $scope.loginData.username = $scope.registration.username;
       $scope.loginData.password = $scope.registration.password;
 
       AuthService.register($scope.registration);
-      // Simulate a login delay. Remove this and replace with your login
-      // code if using a login system
-      $timeout(function () {
-          $scope.closeRegister();
-      }, 1000);
+      AuthService.login($scope.loginData);
+      $scope.closeRegister();
   };
 
   $rootScope.$on('registration:Successful', function () {
@@ -339,7 +323,6 @@ angular.module('starter.controllers', [])
                 $scope.achievements = response;
                 console.log("Got achievements from server: ", $scope.achievements)
                 $scope.showContent = true;
-                //$scope.directions[0].profiles[0].competences[0].skills[0].exp = 100;
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -351,57 +334,19 @@ angular.module('starter.controllers', [])
     };
     getAchievements()
 
-    /*
-    // Create the achievement modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/newachiv.html', {
-        scope: $scope
-    }).then(function (modal) {
-        $scope.achievModal = modal;
-    });
-
-    // Triggered in the achievement modal to close it
-    $scope.closeNewAchiv = function () {
-        $scope.achievModal.hide();
-    };
-
-    // Open the achievement modal
-    $scope.openNewAchiv = function () {
-        $scope.achievModal.show();
-    };
-    */
-
     $scope.addNewAchievement = function (){
         $scope.editingAchievement = false;
         $scope.newAchiv = {};
         $scope.achievementForm = true;
-/*        ngDialog.open({ template: 'views/newachiv.html', scope: $scope, className: 'ngdialog-theme-default', controller:"AchievmentsCtrl" });
-        $rootScope.$on('ngDialog.opened', function (e, $dialog) {
-            console.log('ngDialog opened: ' + $dialog.attr('id'));
-            $( function() {
-              $( "#datepicker" ).datepicker();
-            } );
-        });
-*/
-
     };
+
     $scope.editAchievement = function (achiv){
         $scope.achievementForm = true;
         $scope.editingAchievement = true;
         $scope.newAchiv = {name:achiv.name, id:achiv.id };
-/*
-        ngDialog.open({ template: 'views/newachiv.html', scope: $scope, className: 'ngdialog-theme-default', controller:"AchievmentsCtrl" });
-        $rootScope.$on('ngDialog.opened', function (e, $dialog) {
-            console.log('ngDialog opened: ' + $dialog.attr('id'));
-            $( function() {
-              $( "#datepicker" ).datepicker();
-    //              $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
-    //              $( "#datepicker" ).datepicker('setDate', new Date(2008,9,3));
-            } );
-        });
-*/
+    };
 
-    }
-    ;$scope.postAchievement = function() {
+    $scope.postAchievement = function() {
           $scope.achievementForm = false;
           console.log($scope.newAchiv);
 
@@ -427,7 +372,6 @@ angular.module('starter.controllers', [])
                 console.log("Error: " + response.status + " " + response.statusText);
             });
         }
-        //  ngDialog.close();
     };
     $scope.removeAchievement = function(achiv){
         if(confirm("Removing achievement: "+achiv.name)){
